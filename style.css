@@ -203,3 +203,8 @@ h1 {
     border-radius: 12px;
   }
 }
+.footer a {
+  color: var(--text);
+  text-decoration: none;
+  border-bottom: 1px solid var(--border);
+}

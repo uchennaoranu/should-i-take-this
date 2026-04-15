@@ -4,28 +4,29 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Should I Take This?</title>
+  <meta name="description" content="A fast structural decision filter." />
   <link rel="stylesheet" href="style.css" />
 </head>
 <body>
   <main class="page">
-
     <section class="hero">
+      <p class="eyebrow">Decision Filter</p>
       <h1>Should I Take This?</h1>
       <p class="subtext">Most decisions fail before they begin.</p>
-      <p class="helper">
+      <p class="helper helper-top">
         New job offer · Business partnership · Investment opportunity
       </p>
     </section>
 
     <section class="card">
-      <form id="decision-form">
-
+      <form id="decision-form" novalidate>
         <p class="helper">
           Answer quickly. If you hesitate, that’s your signal.
         </p>
 
         <div class="question">
           <h2>1. Does this create lock-in?</h2>
+          <p class="helper">Exclusivity, long commitment, switching cost.</p>
           <div class="options">
             <label><input type="radio" name="lockin" value="yes" /> Yes</label>
             <label><input type="radio" name="lockin" value="no" /> No</label>
@@ -44,6 +45,7 @@
 
         <div class="question">
           <h2>3. Does this create dependency?</h2>
+          <p class="helper">On one party, one income source, or one outcome.</p>
           <div class="options">
             <label><input type="radio" name="dependency" value="yes" /> Yes</label>
             <label><input type="radio" name="dependency" value="no" /> No</label>
@@ -78,23 +80,15 @@
           </div>
         </div>
 
-        <button type="submit" class="button">Get Result</button>
+        <div class="actions">
+          <button type="submit" class="button">Get Result</button>
+        </div>
 
-        <p id="error" class="error hidden">Answer all questions.</p>
-
+        <p id="form-error" class="error hidden">Answer all 6 questions.</p>
       </form>
     </section>
 
-    <section id="result" class="card hidden">
-      <h2 id="result-title"></h2>
-      <p id="result-summary"></p>
-      <ul id="result-reasons"></ul>
-      <p class="disclaimer">This is a structural filter, not advice.</p>
-      <button onclick="resetForm()" class="button-secondary">Reset</button>
-    </section>
-
     <p class="footer">Built by Uchenna</p>
-
   </main>
 
   <script src="script.js"></script>

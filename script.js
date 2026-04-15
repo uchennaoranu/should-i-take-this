@@ -1,85 +1,91 @@
 const form = document.getElementById("decision-form");
-const resultSection = document.getElementById("result");
-const resultTitle = document.getElementById("result-title");
-const resultSummary = document.getElementById("result-summary");
-const resultReasons = document.getElementById("result-reasons");
-const error = document.getElementById("error");
+const errorEl = document.getElementById("form-error");
 
-form.addEventListener("submit", function (e) {
-  e.preventDefault();
+const questionNames = [
+  "lockin",
+  "exit",
+  "dependency",
+  "asymmetry",
+  "obligation",
+  "reversibility",
+];
+
+form.addEventListener("submit", (event) => {
+  event.preventDefault();
 
   const answers = {};
-  const fields = ["lockin","exit","dependency","asymmetry","obligation","reversibility"];
 
-  for (let f of fields) {
-    const val = document.querySelector(`input[name="${f}"]:checked`);
-    if (!val) {
-      error.classList.remove("hidden");
+  for (const name of questionNames) {
+    const selected = document.querySelector(`input[name="${name}"]:checked`);
+    if (!selected) {
+      errorEl.classList.remove("hidden");
       return;
     }
-    answers[f] = val.value;
+    answers[name] = selected.value;
   }
 
-  error.classList.add("hidden");
+  errorEl.classList.add("hidden");
 
-  let result = evaluate(answers);
-  display(result);
+  const result = evaluateDecision(answers);
+  sessionStorage.setItem("decisionResult", JSON.stringify(result));
+  window.location.href = "result.html";
 });
 
-function evaluate(a) {
-  let reasons = [];
+function evaluateDecision(a) {
+  const reasons = [];
 
-  if (a.lockin === "yes") reasons.push("Lock-in present");
-  if (a.exit === "no") reasons.push("No clean exit");
-  if (a.dependency === "yes") reasons.push("Dependency created");
+  if (a.lockin === "yes") reasons.push("Lock-in is present.");
+  if (a.exit === "no") reasons.push("There is no clean exit.");
+  if (a.dependency === "yes") reasons.push("Dependency is being created.");
 
   if (a.lockin === "yes" || a.exit === "no" || a.dependency === "yes") {
     return {
       title: "DO NOT TAKE",
       summary: "The structure is broken. Do not proceed.",
-      reasons
+      meaning:
+        "This is not a pricing issue or a confidence issue. The structure itself creates direct risk through lock-in, weak exit, or dependency.",
+      reasons,
+      statusClass: "result-donot",
     };
   }
 
-  let flags = (
-    a.lockin === "unsure" ||
-    a.exit === "partial" ||
-    a.dependency === "partial" ||
-    a.asymmetry !== "no" ||
-    a.obligation !== "no" ||
-    a.reversibility !== "yes"
-  );
+  const conditionalFlags = [
+    a.lockin === "unsure",
+    a.exit === "partial",
+    a.dependency === "partial",
+    a.asymmetry !== "no",
+    a.obligation !== "no",
+    a.reversibility !== "yes",
+  ];
 
-  if (flags) {
+  if (conditionalFlags.some(Boolean)) {
+    if (a.lockin === "unsure") reasons.push("Lock-in is not fully clear.");
+    if (a.exit === "partial") reasons.push("Exit is only partial.");
+    if (a.dependency === "partial") reasons.push("Some dependency is being created.");
+    if (a.asymmetry === "yes" || a.asymmetry === "unsure") reasons.push("Upside and downside may be imbalanced.");
+    if (a.obligation === "yes" || a.obligation === "unclear") reasons.push("Commitment may exceed guaranteed return.");
+    if (a.reversibility === "no" || a.reversibility === "difficult") reasons.push("Recovery would be difficult if this fails.");
+
     return {
       title: "CONDITIONAL",
       summary: "This only works if key terms are clarified. Do not proceed as is.",
-      reasons: ["Unclear or imbalanced structure"]
+      meaning:
+        "The structure is not clearly broken, but it is not clean. Unclear terms, asymmetry, or weak reversibility need tightening before any commitment.",
+      reasons,
+      statusClass: "result-conditional",
     };
   }
 
   return {
     title: "TAKE",
     summary: "The structure is clean. No immediate structural issues detected.",
-    reasons: ["No lock-in, clean exit, no dependency"]
+    meaning:
+      "No direct lock-in, no obvious dependency, and no major structural imbalance were detected based on your answers.",
+    reasons: [
+      "No immediate lock-in detected.",
+      "Exit appears clean.",
+      "Dependency does not appear concentrated.",
+    ],
+    statusClass: "result-take",
   };
-}
-
-function display(res) {
-  resultTitle.textContent = res.title;
-  resultSummary.textContent = res.summary;
-
-  resultReasons.innerHTML = "";
-  res.reasons.forEach(r => {
-    let li = document.createElement("li");
-    li.textContent = r;
-    resultReasons.appendChild(li);
-  });
-
-  resultSection.classList.remove("hidden");
-}
-
-function resetForm() {
-  form.reset();
-  resultSection.classList.add("hidden");
 }

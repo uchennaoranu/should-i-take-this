@@ -4,7 +4,6 @@
   --text: #eaeaea;
   --secondary: #9a9a9a;
   --border: #1f1f1f;
-  --accent: #7a5a5a;
   --good: #6b7a66;
   --warn: #8a7a5a;
   --bad: #7a5a5a;
@@ -34,19 +33,19 @@ body {
 }
 
 .hero {
-  margin-bottom: 32px;
+  margin-bottom: 28px;
 }
 
 .eyebrow {
   color: var(--secondary);
-  font-size: 0.9rem;
-  letter-spacing: 0.04em;
+  font-size: 0.86rem;
   text-transform: uppercase;
-  margin: 0 0 8px;
+  letter-spacing: 0.04em;
+  margin: 0 0 10px;
 }
 
 h1 {
-  font-size: 2.4rem;
+  font-size: 2.35rem;
   line-height: 1.1;
   margin: 0 0 12px;
   font-weight: 600;
@@ -63,12 +62,12 @@ h1 {
   border: 1px solid var(--border);
   border-radius: 16px;
   padding: 24px;
-  margin-bottom: 24px;
+  margin-bottom: 20px;
 }
 
 .question {
-  padding: 0 0 24px;
-  margin: 0 0 24px;
+  padding-bottom: 24px;
+  margin-bottom: 24px;
   border-bottom: 1px solid var(--border);
 }
 
@@ -76,16 +75,21 @@ h1 {
   margin-bottom: 0;
 }
 
-.question h2 {
-  font-size: 1.05rem;
+.question h2,
+.section-title {
+  font-size: 1.04rem;
   margin: 0 0 8px;
   font-weight: 600;
 }
 
 .helper {
   color: var(--secondary);
-  margin: 0 0 12px;
   font-size: 0.95rem;
+  margin: 0 0 14px;
+}
+
+.helper-top {
+  margin-top: 10px;
 }
 
 .options {
@@ -98,7 +102,6 @@ h1 {
   border: 1px solid var(--border);
   border-radius: 999px;
   padding: 10px 14px;
-  color: var(--text);
   cursor: pointer;
   user-select: none;
 }
@@ -111,10 +114,10 @@ h1 {
   margin-top: 24px;
 }
 
-.button {
-  background: var(--text);
-  color: var(--bg);
-  border: none;
+.button,
+.button-secondary {
+  display: inline-block;
+  text-decoration: none;
   border-radius: 999px;
   padding: 12px 18px;
   font-size: 0.98rem;
@@ -122,33 +125,20 @@ h1 {
   cursor: pointer;
 }
 
-.button:hover {
-  opacity: 0.92;
+.button {
+  background: var(--text);
+  color: var(--bg);
+  border: none;
 }
 
 .button-secondary {
   background: transparent;
   color: var(--text);
   border: 1px solid var(--border);
-  margin-top: 8px;
-}
-
-.error {
-  color: #d3a8a8;
-  margin-top: 14px;
-}
-
-.hidden {
-  display: none;
-}
-
-.result-summary {
-  color: var(--secondary);
-  margin: 0 0 16px;
 }
 
 .result-reasons {
-  margin: 0 0 20px 18px;
+  margin: 0 0 0 18px;
   padding: 0;
 }
 
@@ -156,10 +146,28 @@ h1 {
   margin-bottom: 8px;
 }
 
-.disclaimer {
+.meaning,
+.disclaimer,
+.footer,
+.error {
   color: var(--secondary);
+}
+
+.disclaimer,
+.footer {
   font-size: 0.92rem;
-  margin-top: 20px;
+}
+
+.footer {
+  margin-top: 10px;
+}
+
+.error {
+  margin-top: 14px;
+}
+
+.hidden {
+  display: none;
 }
 
 .result-take {

@@ -4,27 +4,28 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Should I Take This?</title>
-  <meta
-    name="description"
-    content="A fast structural decision filter. Answer 6 questions and get a Take, Conditional, or Do Not Take result."
-  />
   <link rel="stylesheet" href="style.css" />
 </head>
 <body>
   <main class="page">
+
     <section class="hero">
-      <p class="eyebrow">Decision Filter</p>
       <h1>Should I Take This?</h1>
-      <p class="subtext">
-        A fast structural filter before you commit.
+      <p class="subtext">Most decisions fail before they begin.</p>
+      <p class="helper">
+        New job offer · Business partnership · Investment opportunity
       </p>
     </section>
 
     <section class="card">
-      <form id="decision-form" novalidate>
+      <form id="decision-form">
+
+        <p class="helper">
+          Answer quickly. If you hesitate, that’s your signal.
+        </p>
+
         <div class="question">
-          <h2>1. Does this create any form of lock-in?</h2>
-          <p class="helper">Examples: exclusivity, long contract, switching cost</p>
+          <h2>1. Does this create lock-in?</h2>
           <div class="options">
             <label><input type="radio" name="lockin" value="yes" /> Yes</label>
             <label><input type="radio" name="lockin" value="no" /> No</label>
@@ -33,7 +34,7 @@
         </div>
 
         <div class="question">
-          <h2>2. Can you exit cleanly without penalty?</h2>
+          <h2>2. Can you exit cleanly?</h2>
           <div class="options">
             <label><input type="radio" name="exit" value="yes" /> Yes</label>
             <label><input type="radio" name="exit" value="no" /> No</label>
@@ -42,7 +43,7 @@
         </div>
 
         <div class="question">
-          <h2>3. Does this make you dependent on a single party, income, or outcome?</h2>
+          <h2>3. Does this create dependency?</h2>
           <div class="options">
             <label><input type="radio" name="dependency" value="yes" /> Yes</label>
             <label><input type="radio" name="dependency" value="no" /> No</label>
@@ -51,7 +52,7 @@
         </div>
 
         <div class="question">
-          <h2>4. Is the upside capped while downside remains open?</h2>
+          <h2>4. Is downside open while upside is capped?</h2>
           <div class="options">
             <label><input type="radio" name="asymmetry" value="yes" /> Yes</label>
             <label><input type="radio" name="asymmetry" value="no" /> No</label>
@@ -60,7 +61,7 @@
         </div>
 
         <div class="question">
-          <h2>5. Are you committing more than you are guaranteed to receive?</h2>
+          <h2>5. Are you committing more than you’re guaranteed?</h2>
           <div class="options">
             <label><input type="radio" name="obligation" value="yes" /> Yes</label>
             <label><input type="radio" name="obligation" value="no" /> No</label>
@@ -69,7 +70,7 @@
         </div>
 
         <div class="question">
-          <h2>6. If this fails, can you return to your current position easily?</h2>
+          <h2>6. Can you recover easily if this fails?</h2>
           <div class="options">
             <label><input type="radio" name="reversibility" value="yes" /> Yes</label>
             <label><input type="radio" name="reversibility" value="no" /> No</label>
@@ -77,24 +78,23 @@
           </div>
         </div>
 
-        <div class="actions">
-          <button type="submit" class="button">Get Result</button>
-        </div>
+        <button type="submit" class="button">Get Result</button>
 
-        <p id="form-error" class="error hidden">Please answer all 6 questions.</p>
+        <p id="error" class="error hidden">Answer all questions.</p>
+
       </form>
     </section>
 
-    <section id="result-card" class="card hidden" aria-live="polite">
-      <p class="eyebrow">Result</p>
+    <section id="result" class="card hidden">
       <h2 id="result-title"></h2>
-      <p id="result-summary" class="result-summary"></p>
-      <ul id="result-reasons" class="result-reasons"></ul>
-      <p class="disclaimer">
-        This is a structural decision filter, not advice.
-      </p>
-      <button id="reset-btn" class="button button-secondary" type="button">Reset</button>
+      <p id="result-summary"></p>
+      <ul id="result-reasons"></ul>
+      <p class="disclaimer">This is a structural filter, not advice.</p>
+      <button onclick="resetForm()" class="button-secondary">Reset</button>
     </section>
+
+    <p class="footer">Built by Uchenna</p>
+
   </main>
 
   <script src="script.js"></script>

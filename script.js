@@ -1,147 +1,85 @@
 const form = document.getElementById("decision-form");
-const errorEl = document.getElementById("form-error");
-const resultCard = document.getElementById("result-card");
+const resultSection = document.getElementById("result");
 const resultTitle = document.getElementById("result-title");
 const resultSummary = document.getElementById("result-summary");
 const resultReasons = document.getElementById("result-reasons");
-const resetBtn = document.getElementById("reset-btn");
+const error = document.getElementById("error");
 
-const questionNames = [
-  "lockin",
-  "exit",
-  "dependency",
-  "asymmetry",
-  "obligation",
-  "reversibility",
-];
+form.addEventListener("submit", function (e) {
+  e.preventDefault();
 
-function getAnswers() {
   const answers = {};
+  const fields = ["lockin","exit","dependency","asymmetry","obligation","reversibility"];
 
-  for (const name of questionNames) {
-    const selected = document.querySelector(`input[name="${name}"]:checked`);
-    if (!selected) {
-      return null;
+  for (let f of fields) {
+    const val = document.querySelector(`input[name="${f}"]:checked`);
+    if (!val) {
+      error.classList.remove("hidden");
+      return;
     }
-    answers[name] = selected.value;
+    answers[f] = val.value;
   }
 
-  return answers;
-}
+  error.classList.add("hidden");
 
-function evaluateDecision(answers) {
-  const reasons = [];
+  let result = evaluate(answers);
+  display(result);
+});
 
-  const doNotTake =
-    answers.lockin === "yes" ||
-    answers.exit === "no" ||
-    answers.dependency === "yes";
+function evaluate(a) {
+  let reasons = [];
 
-  if (answers.lockin === "yes") {
-    reasons.push("Lock-in detected.");
-  }
-  if (answers.exit === "no") {
-    reasons.push("Exit is not clean.");
-  }
-  if (answers.dependency === "yes") {
-    reasons.push("Dependency risk is present.");
-  }
+  if (a.lockin === "yes") reasons.push("Lock-in present");
+  if (a.exit === "no") reasons.push("No clean exit");
+  if (a.dependency === "yes") reasons.push("Dependency created");
 
-  if (doNotTake) {
+  if (a.lockin === "yes" || a.exit === "no" || a.dependency === "yes") {
     return {
-      status: "DO NOT TAKE",
-      className: "result-donot",
-      summary: "The structure creates direct exposure to lock-in, weak exit, or dependency.",
-      reasons,
+      title: "DO NOT TAKE",
+      summary: "The structure is broken. Do not proceed.",
+      reasons
     };
   }
 
-  const conditionalFlags = [
-    answers.lockin === "unsure",
-    answers.exit === "partial",
-    answers.dependency === "partial",
-    answers.asymmetry === "yes",
-    answers.asymmetry === "unsure",
-    answers.obligation === "yes",
-    answers.obligation === "unclear",
-    answers.reversibility === "no",
-    answers.reversibility === "difficult",
-  ];
+  let flags = (
+    a.lockin === "unsure" ||
+    a.exit === "partial" ||
+    a.dependency === "partial" ||
+    a.asymmetry !== "no" ||
+    a.obligation !== "no" ||
+    a.reversibility !== "yes"
+  );
 
-  if (conditionalFlags.some(Boolean)) {
-    if (answers.lockin === "unsure") {
-      reasons.push("Lock-in is not fully clear.");
-    }
-    if (answers.exit === "partial") {
-      reasons.push("Exit is only partial, not clean.");
-    }
-    if (answers.dependency === "partial") {
-      reasons.push("Some dependency is being created.");
-    }
-    if (answers.asymmetry === "yes" || answers.asymmetry === "unsure") {
-      reasons.push("Upside/downside balance may be unfavourable.");
-    }
-    if (answers.obligation === "yes" || answers.obligation === "unclear") {
-      reasons.push("Commitment may exceed guaranteed return.");
-    }
-    if (answers.reversibility === "no" || answers.reversibility === "difficult") {
-      reasons.push("Reversibility is weak.");
-    }
-
+  if (flags) {
     return {
-      status: "CONDITIONAL",
-      className: "result-conditional",
-      summary: "The structure is not clearly broken, but it is not clean enough to proceed without tightening terms.",
-      reasons,
+      title: "CONDITIONAL",
+      summary: "This only works if key terms are clarified. Do not proceed as is.",
+      reasons: ["Unclear or imbalanced structure"]
     };
   }
 
   return {
-    status: "TAKE",
-    className: "result-take",
-    summary: "The structure appears clean on lock-in, exit, dependency, and reversibility.",
-    reasons: [
-      "No immediate lock-in detected.",
-      "Exit appears clean.",
-      "Dependency does not appear concentrated.",
-    ],
+    title: "TAKE",
+    summary: "The structure is clean. No immediate structural issues detected.",
+    reasons: ["No lock-in, clean exit, no dependency"]
   };
 }
 
-function renderResult(result) {
-  resultTitle.textContent = result.status;
-  resultTitle.className = result.className;
-  resultSummary.textContent = result.summary;
+function display(res) {
+  resultTitle.textContent = res.title;
+  resultSummary.textContent = res.summary;
 
   resultReasons.innerHTML = "";
-  result.reasons.forEach((reason) => {
-    const li = document.createElement("li");
-    li.textContent = reason;
+  res.reasons.forEach(r => {
+    let li = document.createElement("li");
+    li.textContent = r;
     resultReasons.appendChild(li);
   });
 
-  resultCard.classList.remove("hidden");
-  resultCard.scrollIntoView({ behavior: "smooth", block: "start" });
+  resultSection.classList.remove("hidden");
 }
 
-form.addEventListener("submit", (event) => {
-  event.preventDefault();
-
-  const answers = getAnswers();
-
-  if (!answers) {
-    errorEl.classList.remove("hidden");
-    return;
-  }
-
-  errorEl.classList.add("hidden");
-  const result = evaluateDecision(answers);
-  renderResult(result);
-});
-
-resetBtn.addEventListener("click", () => {
+function resetForm() {
   form.reset();
-  resultCard.classList.add("hidden");
-  errorEl.classList.add("hidden");
-  window.scrollTo({ top: 0, behavior: "smooth" });
-});
+  resultSection.classList.add("hidden");
+}

@@ -6,6 +6,18 @@
   <title>Should I Take This?</title>
   <meta name="description" content="A fast structural decision filter." />
   <link rel="stylesheet" href="style.css" />
+  <!-- Google tag (gtag.js) -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-9ZXJQ3W7XX"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-9ZXJQ3W7XX', {
+      linker: {
+        domains: ['decisionstresstest.com', 'decisionautopsy.com', 'dealstructurereview.com', 'should-i.decisionstresstest.com']
+      }
+    });
+  </script>
 </head>
 <body>
   <main class="page">
@@ -21,7 +33,7 @@
     <section class="card">
       <form id="decision-form" novalidate>
         <p class="helper">
-          Answer quickly. If you hesitate, that’s your signal.
+          Answer quickly. If you hesitate, that's your signal.
         </p>
 
         <div class="question">
@@ -63,7 +75,7 @@
         </div>
 
         <div class="question">
-          <h2>5. Are you committing more than you’re guaranteed?</h2>
+          <h2>5. Are you committing more than you're guaranteed?</h2>
           <div class="options">
             <label><input type="radio" name="obligation" value="yes" /> Yes</label>
             <label><input type="radio" name="obligation" value="no" /> No</label>

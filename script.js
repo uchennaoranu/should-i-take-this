@@ -28,6 +28,11 @@ form.addEventListener("submit", (event) => {
 
   const result = evaluateDecision(answers);
   sessionStorage.setItem("decisionResult", JSON.stringify(result));
+
+  if (typeof gtag !== 'undefined') {
+    gtag('event', 'si_completed');
+  }
+
   window.location.href = "result.html";
 });
 

@@ -30,7 +30,10 @@ form.addEventListener("submit", (event) => {
   sessionStorage.setItem("decisionResult", JSON.stringify(result));
 
   if (typeof gtag !== 'undefined') {
-    gtag('event', 'si_completed');
+    gtag('event', 'si_completed', {
+      tool_name: 'decision_stress_test',
+      completion_status: 'complete'
+    });
   }
 
   window.location.href = "result.html";

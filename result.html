@@ -13,16 +13,21 @@
   <meta property="og:type" content="website" />
   <link rel="stylesheet" href="style.css" />
   <!-- Google tag (gtag.js) -->
-  <script async src="https://www.googletagmanager.com/gtag/js?id=G-9ZXJQ3W7XX"></script>
   <script>
-    window.dataLayer = window.dataLayer || [];
-    function gtag(){dataLayer.push(arguments);}
-    gtag('js', new Date());
-    gtag('config', 'G-9ZXJQ3W7XX', {
-      linker: {
-        domains: ['decisionstresstest.com', 'decisionautopsy.com', 'dealstructurereview.com', 'should-i.decisionstresstest.com']
-      }
-    });
+    if (window.location.hostname === "should-i.decisionstresstest.com") {
+      window.dataLayer = window.dataLayer || [];
+      window.gtag = function(){window.dataLayer.push(arguments);};
+      window.gtag('js', new Date());
+      window.gtag('config', 'G-9ZXJQ3W7XX', {
+        linker: {
+          domains: ['decisionstresstest.com', 'decisionautopsy.com', 'dealstructurereview.com', 'should-i.decisionstresstest.com']
+        }
+      });
+      var gaScript = document.createElement("script");
+      gaScript.async = true;
+      gaScript.src = "https://www.googletagmanager.com/gtag/js?id=G-9ZXJQ3W7XX";
+      document.head.appendChild(gaScript);
+    }
   </script>
 </head>
 <body>
@@ -48,7 +53,7 @@
       <p>This flags structural risk. See how the decision holds up under pressure before committing.</p>
 
       <div class="actions">
-        <a href="https://decisionstresstest.com" class="button" onclick="gtag('event', 'si_to_dst_click', { tool_name: 'decision_stress_test', destination: 'decision_stress_test' });">Test your decision</a>
+        <a href="https://decisionstresstest.com" class="button" onclick="typeof gtag === 'function' && gtag('event', 'si_to_dst_click', { tool_name: 'decision_stress_test', destination: 'decision_stress_test' });">Test your decision</a>
         <a href="https://dealstructurereview.com" class="button-secondary cta-conditional">If this is a commercial deal, review the structure</a>
         <a href="index.html" class="cta-tertiary">Try another decision</a>
       </div>

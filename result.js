@@ -37,7 +37,7 @@ if (!stored) {
           objective: "Preserve the DST Lite result for optional follow-up in QDS.",
           inputPayload: result.inputs || {},
           outputPayload: { title: result.title, summary: result.summary, meaning: result.meaning, reasons: result.reasons, statusClass: result.statusClass },
-          schemaVersion: 1
+          schemaVersion: "1"
         })
       });
       const body = await response.json().catch(() => ({}));

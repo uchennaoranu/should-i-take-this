@@ -12,17 +12,12 @@
   <meta property="og:url" content="https://should-i.decisionstresstest.com" />
   <meta property="og:type" content="website" />
   <link rel="stylesheet" href="style.css" />
-  <!-- Google tag (gtag.js) -->
   <script>
     if (window.location.hostname === "should-i.decisionstresstest.com") {
       window.dataLayer = window.dataLayer || [];
       window.gtag = function(){window.dataLayer.push(arguments);};
       window.gtag('js', new Date());
-      window.gtag('config', 'G-9ZXJQ3W7XX', {
-        linker: {
-          domains: ['decisionstresstest.com', 'decisionautopsy.com', 'dealstructurereview.com', 'should-i.decisionstresstest.com']
-        }
-      });
+      window.gtag('config', 'G-9ZXJQ3W7XX', { linker: { domains: ['decisionstresstest.com', 'decisionautopsy.com', 'dealstructurereview.com', 'should-i.decisionstresstest.com'] } });
       var gaScript = document.createElement("script");
       gaScript.async = true;
       gaScript.src = "https://www.googletagmanager.com/gtag/js?id=G-9ZXJQ3W7XX";
@@ -32,37 +27,31 @@
 </head>
 <body>
   <main class="page">
-    
     <section class="hero">
       <h1 id="result-title"></h1>
       <p id="result-summary" class="subtext"></p>
     </section>
-
     <section class="card">
       <h2 class="section-title">Why</h2>
       <ul id="result-reasons" class="result-reasons"></ul>
     </section>
-
     <section class="card">
       <h2 class="section-title">What this means</h2>
       <p id="result-meaning" class="meaning"></p>
       <p class="disclaimer">This is a structural filter, not advice.</p>
     </section>
-
     <section class="card">
       <p>This flags structural risk. See how the decision holds up under pressure before committing.</p>
-
       <div class="actions">
         <a href="https://decisionstresstest.com" class="button" onclick="typeof gtag === 'function' && gtag('event', 'si_to_dst_click', { tool_name: 'decision_stress_test', destination: 'decision_stress_test' });">Test your decision</a>
         <a href="https://dealstructurereview.com" class="button-secondary cta-conditional">If this is a commercial deal, review the structure</a>
+        <button id="qds-handoff" type="button" class="button-secondary">Save this result to QDS</button>
         <a href="index.html" class="cta-tertiary">Try another decision</a>
       </div>
+      <p id="qds-handoff-status" class="helper" role="status" aria-live="polite"></p>
     </section>
-
     <p class="footer">Built on the Decision Autopsy framework</p>
-
   </main>
-
   <script src="result.js"></script>
 </body>
 </html>

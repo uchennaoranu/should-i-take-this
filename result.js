@@ -41,7 +41,10 @@ if (!stored) {
         })
       });
       const body = await response.json().catch(() => ({}));
-      if (!response.ok) throw new Error(body.error || "The optional QDS handoff is not configured.");
+      if (!response.ok) {
+        const message = typeof body?.error === "string" ? body.error : "The optional QDS handoff is unavailable.";
+        throw new Error(message);
+      }
       handoffStatus.textContent = "Handoff ready. Opening QDS…";
       if (typeof gtag === "function") gtag("event", "si_to_qds_handoff", { tool_name: "decision_stress_test", source_tool: "DST_LITE" });
       window.open(body.claimUrl, "_blank", "noopener");

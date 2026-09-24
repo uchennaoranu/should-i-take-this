@@ -52,5 +52,3 @@ function evaluateDecision(a) {
   }
   return { title: "TAKE", summary: "The structure is clean. No immediate structural issues detected.", meaning: "No direct lock-in, no obvious dependency, and no major structural imbalance were detected based on your answers.", reasons: ["No immediate lock-in detected.", "Exit appears clean.", "Dependency does not appear concentrated."], statusClass: "result-take" };
 }
-
-

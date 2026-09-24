@@ -2,6 +2,15 @@ const form = document.getElementById("decision-form");
 const errorEl = document.getElementById("form-error");
 const questionNames = ["lockin", "exit", "dependency", "asymmetry", "obligation", "reversibility"];
 
+let started = false;
+let completionTracked = false;
+form.addEventListener("change", (event) => {
+  if (!started && event.target.matches('input[type="radio"]')) {
+    started = true;
+    try { if (typeof gtag === "function") gtag("event", "qds_tool_start", {source_tool: "DST_LITE", send_to: "G-9ZXJQ3W7XX"}); } catch {}
+  }
+});
+
 form.addEventListener("submit", (event) => {
   event.preventDefault();
   const answers = {};
@@ -17,7 +26,11 @@ form.addEventListener("submit", (event) => {
   const result = evaluateDecision(answers);
   result.inputs = answers;
   sessionStorage.setItem("decisionResult", JSON.stringify(result));
-  if (typeof gtag !== "undefined") gtag("event", "si_completed", { tool_name: "decision_stress_test", completion_status: "complete" });
+  // Reuse the existing completion event. Reloading result.html never emits it.
+  if (!completionTracked) {
+    completionTracked = true;
+    try { if (typeof gtag === "function") gtag("event", "si_completed", { tool_name: "decision_stress_test", source_tool: "DST_LITE", completion_status: "complete", send_to: "G-9ZXJQ3W7XX" }); } catch {}
+  }
   window.location.href = "result.html";
 });
 
